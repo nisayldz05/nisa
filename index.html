@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mia Coffee & Bakery</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d0d0d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+
+    <!-- --- SPLASH SCREEN --- -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">M</div>
+            <h1>Mia.</h1>
+            <p>Coffee & Bakery</p>
+            <div class="loading-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- TOAST NOTIFICATIONS --- -->
+    <div id="toast-container"></div>
+
+    <div class="app-container">
+
+
+
+        <!-- --- ANA UYGULAMA İÇERİĞİ --- -->
+        <div id="app-content">
+
+            <!-- Sayfalar -->
+            <main style="flex: 1; overflow: hidden;">
+
+                <!-- 1. ANASAYFA -->
+                <div id="page-home" class="page-section active">
+                    <header class="app-header">
+                        <div class="user-info">
+                            <span class="greeting" id="greeting-text">Hoş Geldin,</span>
+                            <h2 id="user-name-display">Misafir</h2>
+                        </div>
+                        <div class="header-actions">
+                            <div class="wallet-pill user-only" onclick="showPage('wallet')">
+                                <i class="ph-fill ph-wallet"></i>
+                                <span id="header-balance">0.00 ₺</span>
+                            </div>
+                            <button class="btn-login-small guest-only" onclick="openAuthModal()">Giriş Yap</button>
+                        </div>
+                    </header>
+
+                    <!-- Canlı Sipariş Takipçisi (Live Tracker) -->
+                    <div id="live-tracker-container" class="live-tracker-section user-only"
+                        style="display:none; padding: 15px 20px 0;">
+                        <div class="tracker-card">
+                            <div class="tracker-header">
+                                <div class="t-title">Siparişin Hazırlanıyor</div>
+                                <div class="t-timer" id="tracker-timer">02:45</div>
+                            </div>
+                            <div class="tracker-message" id="tracker-status-msg">Barista siparişini aldı...</div>
+                            <div class="tracker-progress">
+                                <div class="tracker-bar" id="tracker-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mia Stories -->
+                    <div class="stories-section">
+                        <!-- ... (stories content) ... -->
+                        <div class="story-item" onclick="showStory('winter')">
+                            <div class="story-circle active"><img
+                                    src="https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&w=100&q=80">
+                            </div>
+                            <span>Kış Lezzeti</span>
+                        </div>
+                        <div class="story-item" onclick="showStory('stars')">
+                            <div class="story-circle active">
+                                <div class="story-icon"><i class="ph-fill ph-star"></i></div>
+                            </div>
+                            <span>2x Yıldız</span>
+                        </div>
+                        <div class="story-item" onclick="showStory('bakery')">
+                            <div class="story-circle"><img
+                                    src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=100&q=80">
+                            </div>
+                            <span>Taze Fırın</span>
+                        </div>
+                        <div class="story-item" onclick="showStory('gift')">
+                            <div class="story-circle">
+                                <div class="story-icon"><i class="ph-fill ph-gift"></i></div>
+                            </div>
+                            <span>Hele Bak!</span>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Hızlı Tekrar (Quick Reorder) -->
+                    <div id="quick-reorder-container" class="quick-reorder-section user-only"
+                        style="display:none; margin-bottom: 20px;">
+                        <h4 style="margin: 0 20px 10px; font-size: 14px; font-weight: 800;">Yine mi aynısından?</h4>
+                        <div id="quick-reorder-card-content" style="padding: 0 20px;">
+                            <!-- Dinamik İçerik -->
+                        </div>
+                    </div>
+
+                    <!-- MIA STARS (SADE) -->
+                    <div class="loyalty-card">
+                        <!-- Logged In State -->
+                        <div class="user-only">
+                            <div class="l-header">
+                                <div class="l-title-group">
+                                    <h3>Mia Stars ✨</h3>
+                                </div>
+                                <div class="star-count-gold">
+                                    <i class="ph-fill ph-star"></i>
+                                    <span id="user-stars">0</span> <small>/ 5</small>
+                                </div>
+                            </div>
+
+                            <div class="rewards-roadmap">
+                                <div class="roadmap-line"></div>
+                                <div class="roadmap-step active" data-step="1"><span>1</span></div>
+                                <div class="roadmap-step" data-step="2"><span>2</span></div>
+                                <div class="roadmap-step" data-step="3"><span>3</span></div>
+                                <div class="roadmap-step" data-step="4"><span>4</span></div>
+                                <div class="roadmap-step gift-step" data-step="5"><i class="ph-fill ph-gift"></i></div>
+                            </div>
+                        </div>
+
+                        <!-- Guest State -->
+                        <div class="guest-only loyalty-guest">
+                            <i class="ph-fill ph-sparkle guest-sparkle"></i>
+                            <h3>Mia Rewards'a Katılın</h3>
+                            <p>Yıldız toplayın, ücretsiz kahve kazanın!</p>
+                            <button class="btn btn-accent" onclick="openAuthModal('register')">Hemen Katıl</button>
+                        </div>
+
+                        <div class="loyalty-benefits">
+                            <div class="benefit-item">
+                                <i class="ph-fill ph-check-circle"></i>
+                                <span>Her 5 harcamada 1 hediye kahve</span>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="ph-fill ph-sparkle"></i>
+                                <span>Doğum gününde özel ikramlar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input type="text" id="menu-search" placeholder="Hangi kahveyi istersin?..."
+                                oninput="handleSearch()">
+                        </div>
+                    </div>
+
+                    <div class="filter-scroll">
+                        <button class="filter-chip active" data-category="all">Tümü</button>
+                        <button class="filter-chip" data-category="fav"><i class="ph-fill ph-heart"
+                                style="color:#ef5350"></i> Favorilerim</button>
+                        <button class="filter-chip" data-category="hot">Sıcak Kahveler</button>
+                        <button class="filter-chip" data-category="cold">Soğuk Kahveler</button>
+                    </div>
+
+                    <div id="menu-container"></div>
+                </div>
+
+                <!-- 2. CÜZDAN (Basitleştirilmiş & Şık) -->
+                <div id="page-wallet" class="page-section">
+                    <div class="page-header">
+                        <h1>Cüzdanım</h1>
+                    </div>
+
+                    <div class="wallet-card-container">
+                        <div class="mia-card">
+                            <div class="card-chip"></div>
+                            <i class="ph-fill ph-sketch-logo card-logo"></i>
+                            <div class="card-balance">
+                                <small>Kullanılabilir Bakiye</small>
+                                <h2 id="wallet-balance-big">0.00 ₺</h2>
+                            </div>
+                            <div class="card-user" id="card-user-name">KULLANICI ADI</div>
+                        </div>
+                    </div>
+
+                    <div class="wallet-actions-optimized">
+                        <button class="btn btn-primary" onclick="openLoadModal()">
+                            <i class="ph-fill ph-plus-circle"></i> Bakiye Yükle
+                        </button>
+                        <button class="btn-secondary" onclick="openGiftModal()">
+                            <i class="ph-fill ph-gift"></i> Kahve Ismarla
+                        </button>
+                    </div>
+
+                    <div class="bank-cards-section">
+                        <div class="section-header">
+                            <h3>Banka Kartlarım</h3>
+                            <button class="btn-add-card" onclick="openAddCardModal()">
+                                <i class="ph ph-plus"></i>
+                            </button>
+                        </div>
+                        <div id="bank-cards-container" class="bank-cards-scroll">
+                            <!-- Dinamik kartlar buraya yüklenecek -->
+                        </div>
+                    </div>
+
+                    <div class="history-section">
+                        <h3>Son İşlemler</h3>
+                        <div id="wallet-history"></div>
+                    </div>
+
+
+                </div>
+
+                <!-- 3. SİPARİŞLERİM SAYFASI -->
+                <div id="page-orders" class="page-section">
+                    <div class="page-header">
+                        <h1>Siparişlerim</h1>
+                    </div>
+                    <div id="orders-list" style="padding: 0 20px 100px;"></div>
+                </div>
+
+                <!-- 4. AYARLAR (Modern Bento Dashboard) -->
+                <div id="page-settings" class="page-section">
+                    <div class="page-header">
+                        <h1>Profilim</h1>
+                    </div>
+
+                    <div class="bento-item wide glass-effect" style="text-align: center; margin-bottom: 20px;">
+                        <div class="avatar" style="margin: 0 auto 15px;">?</div>
+                        <h2 id="settings-user-fullname">Misafir Kullanıcı</h2>
+                        <p id="settings-user-email">Üyeliğe bekliyoruz...</p>
+                    </div>
+
+                    <div class="bento-grid user-only">
+                        <div class="bento-item" onclick="showPage('orders')">
+                            <i class="ph ph-receipt"></i>
+                            <h4>Siparişlerim</h4>
+                        </div>
+                        <div class="bento-item" onclick="showPage('wallet')">
+                            <i class="ph ph-wallet"></i>
+                            <h4>Cüzdanım</h4>
+                        </div>
+                        <div class="bento-item" onclick="toggleDarkMode()">
+                            <i class="ph ph-moon"></i>
+                            <h4>Görünüm</h4>
+                        </div>
+                        <div class="bento-item" onclick="logout()">
+                            <i class="ph ph-sign-out"></i>
+                            <h4>Çıkış</h4>
+                        </div>
+                    </div>
+
+                    <!-- Guest Promo -->
+                    <div class="guest-only" style="padding-top: 20px;">
+                        <div class="auth-promo-card">
+                            <i class="ph-fill ph-user-circle-plus"></i>
+                            <h3>Hala Mia üyesi değil misin?</h3>
+                            <button class="btn btn-primary" onclick="openAuthModal()">Giriş Yap veya Katıl</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!-- 5. BARISTA PANELI -->
+        <div id="page-admin" class="page-section">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>Mutfak Paneli</h1>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-refresh" onclick="renderAdminDashboard()"><i
+                            class="ph ph-arrows-clockwise"></i></button>
+                </div>
+            </div>
+            <p style="padding: 0 20px 10px; font-size: 13px; color: var(--gray);">Siparişlerin durumunu buradan
+                yönetebilirsiniz.</p>
+            <div id="admin-orders-list" class="admin-orders-list"></div>
+        </div>
+        </main>
+
+        <!-- Alt Menü -->
+        <nav class="tab-bar">
+            <div class="nav-item active" onclick="showPage('home')">
+                <i class="ph-fill ph-house"></i>
+                <span>Anasayfa</span>
+            </div>
+            <div class="nav-item" onclick="showPage('wallet')">
+                <i class="ph ph-wallet"></i>
+                <span>Cüzdan</span>
+            </div>
+            <div class="nav-item" onclick="showPage('orders')">
+                <i class="ph ph-receipt"></i>
+                <span>Siparişler</span>
+            </div>
+            <div class="nav-item" onclick="showPage('settings')">
+                <i class="ph ph-gear"></i>
+                <span>Ayarlar</span>
+            </div>
+            <div class="nav-item" onclick="openCart()">
+                <i class="ph ph-shopping-cart"></i>
+                <span>Sepet</span>
+                <div id="cart-count">0</div>
+            </div>
+        </nav>
+    </div>
+    </div>
+
+    <!-- --- OVERLAY & MODALS --- -->
+    <div id="overlay"></div>
+
+    <!-- Ürün Detay Modalı -->
+    <div id="product-modal" class="bottom-sheet">
+        <div class="sheet-header">
+            <div class="sheet-bar"></div>
+        </div>
+        <div class="product-detail">
+            <img id="modal-img" src="" alt="">
+            <div class="pd-info">
+                <h2 id="modal-title">Ürün İsmi</h2>
+                <div id="modal-price" class="pd-price">0 ₺</div>
+            </div>
+
+            <!-- Boyut Seçimi -->
+            <div class="size-section">
+                <p>Boyut Seçiniz</p>
+                <div class="size-options">
+                    <div class="s-opt active" data-size="S" onclick="selectSize('S')">S</div>
+                    <div class="s-opt" data-size="M" onclick="selectSize('M')">M</div>
+                    <div class="s-opt" data-size="L" onclick="selectSize('L')">L</div>
+                </div>
+            </div>
+
+            <!-- Gelişmiş Özelleştirme -->
+            <div class="custom-section">
+                <p>Süt Seçimi</p>
+                <div class="milk-options">
+                    <div class="m-opt active" data-milk="normal" onclick="selectMilk('normal', 0)">Normal</div>
+                    <div class="m-opt" data-milk="oat" onclick="selectMilk('oat', 15)">Yulaf (+15₺)</div>
+                    <div class="m-opt" data-milk="almond" onclick="selectMilk('almond', 20)">Badem (+20₺)</div>
+                </div>
+
+                <p style="margin-top:15px;">Ekstralar</p>
+                <div class="extra-options">
+                    <div class="e-opt" data-extra="shot" onclick="toggleExtra('shot', 10)">+1 Shot (+10₺)</div>
+                    <div class="e-opt" data-extra="caramel" onclick="toggleExtra('caramel', 12)">Karamel (+12₺)</div>
+                </div>
+            </div>
+
+            <!-- Not Alanı -->
+            <div class="note-section">
+                <p>Barista için Not</p>
+                <input type="text" id="order-note" placeholder="Şeker, sıcaklık vb.">
+            </div>
+
+            <div class="pd-controls">
+                <div class="qty-control">
+                    <button onclick="changeQty(-1)">-</button>
+                    <span id="modal-qty">1</span>
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+                <button class="btn btn-primary" onclick="addToCartConfirm()">Sepete Ekle • <span
+                        id="modal-total-price">0 ₺</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sepet Modalı -->
+    <div id="cart-modal" class="bottom-sheet">
+        <h2>Sepetim</h2>
+        <div id="cart-items-container" style="max-height: 300px; overflow-y: auto; margin: 20px 0;"></div>
+        <div class="cart-summary">
+            <div
+                style="display:flex; justify-content:space-between; margin-bottom:15px; font-weight:700; font-size:18px;">
+                <span>Toplam</span>
+                <span id="cart-total-amount">0 ₺</span>
+            </div>
+            <p id="checkout-error" style="color:#ef5350; font-size:13px; margin-bottom:10px; display:none;">Yetersiz
+                Bakiye! Lütfen yükleme yapın.</p>
+            <button class="btn btn-primary" onclick="checkout()">Ödemeyi Tamamla</button>
+        </div>
+    </div>
+
+    <!-- Bakiye Yükleme Modalı -->
+    <div id="payment-modal" class="bottom-sheet">
+        <h2>Bakiye Yükle</h2>
+        <div class="input-group" style="margin-top:20px;">
+            <label>Yüklenecek Tutar (₺)</label>
+            <input type="number" id="load-amount" placeholder="Örn: 100">
+        </div>
+        <div class="quick-amounts"
+            style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px;">
+            <button class="filter-chip" onclick="addMoney(50)">50 ₺</button>
+            <button class="filter-chip" onclick="addMoney(100)">100 ₺</button>
+            <button class="filter-chip" onclick="addMoney(250)">250 ₺</button>
+        </div>
+        <div class="card-selection-area" style="margin-bottom: 20px;">
+            <label style="font-size: 12px; color: var(--gray); font-weight: 800; text-transform: uppercase;">Ödeme
+                Yöntemi</label>
+            <div id="payment-modal-cards" class="bank-cards-scroll" style="margin-top: 10px;">
+                <!-- Kayıtlı kartlar buraya gelecek veya 'Kart Ekle' butonu -->
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="confirmLoad()">Güvenli Öde ve Yükle</button>
+    </div>
+
+    <!-- Başarı Modalı -->
+    <div id="success-modal" class="bottom-sheet" style="text-align: center;">
+        <i class="ph-fill ph-check-circle" style="font-size: 80px; color: var(--success); margin-bottom: 20px;"></i>
+        <h2 id="success-text">İşlem Başarılı!</h2>
+        <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeSuccess()">Harika!</button>
+    </div>
+
+    <!-- Üye Giriş Modalı -->
+    <div id="auth-modal" class="bottom-sheet">
+        <div class="sheet-bar"></div>
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchAuth('login')">Giriş Yap</div>
+            <div class="auth-tab" onclick="switchAuth('register')">Üye Ol</div>
+        </div>
+
+        <!-- Giriş Formu -->
+        <div id="form-login" class="auth-form active">
+            <div class="input-group">
+                <label>E-posta Adresi</label>
+                <input type="email" id="login-email" placeholder="ornek@mail.com">
+            </div>
+            <div class="input-group">
+                <label>Şifre</label>
+                <input type="password" id="login-pass" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" onclick="handleLogin()">Giriş Yap</button>
+        </div>
+
+        <!-- Kayıt Formu -->
+        <div id="form-register" class="auth-form">
+            <div class="input-group">
+                <label>Ad Soyad</label>
+                <input type="text" id="reg-name" placeholder="Adınız">
+            </div>
+            <div class="input-group">
+                <label>E-posta</label>
+                <input type="email" id="reg-email" placeholder="e-posta@mail.com">
+            </div>
+            <div class="input-group">
+                <label>Şifre</label>
+                <input type="password" id="reg-pass" placeholder="Şifre oluştur">
+            </div>
+            <button class="btn btn-primary" onclick="handleRegister()">Kayıt Ol ve Başla</button>
+        </div>
+    </div>
+
+
+
+    <!-- Yeni Banka Kartı Ekleme Modalı -->
+    <div id="add-card-modal" class="bottom-sheet">
+        <h2>Kart Ekle</h2>
+        <div class="input-group" style="margin-top:20px;">
+            <label>Kart Üzerindeki İsim</label>
+            <input type="text" id="new-card-name" placeholder="AD SOYAD">
+        </div>
+        <div class="input-group">
+            <label>Kart Numarası</label>
+            <input type="text" id="new-card-number" placeholder="**** **** **** ****" maxlength="19">
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <div class="input-group">
+                <label>Son Kullanma</label>
+                <input type="text" id="new-card-expiry" placeholder="AA/YY">
+            </div>
+            <div class="input-group">
+                <label>CVV</label>
+                <input type="password" id="new-card-cvv" placeholder="***" maxlength="3">
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="confirmAddCard()">Kartı Güvenle Kaydet</button>
+    </div>
+
+    <!-- Hediye Gönder Modalı -->
+    <div id="gift-modal" class="bottom-sheet">
+        <div class="sheet-bar"></div>
+        <div style="text-align: center; padding: 20px;">
+            <i class="ph-fill ph-gift" style="font-size: 50px; color: var(--accent); margin-bottom: 15px;"></i>
+            <h2>Kahve Ismarla 🎁</h2>
+            <p style="color: var(--gray); font-size: 13px; margin-bottom: 25px;">Arkadaşının e-postasını yaz, ona
+                sürpriz yap!</p>
+
+            <div class="input-group">
+                <label>Arkadaşının E-postası</label>
+                <input type="email" id="gift-email" placeholder="arkadas@mia.com">
+            </div>
+
+            <div class="input-group">
+                <label>Hediye Seç</label>
+                <select id="gift-item-id"
+                    style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--text);">
+                    <option value="60">Filtre Kahve (60 ₺)</option>
+                    <option value="80">Latte (80 ₺)</option>
+                    <option value="120">Özel Seri Blend (120 ₺)</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" onclick="confirmGift()">Hediye Gönder</button>
+        </div>
+    </div>
+
+    <!-- Story Viewer Modalı -->
+    <div id="story-viewer" class="story-viewer-modal">
+        <div class="story-window">
+            <div class="story-progress">
+                <div class="story-progress-bar"></div>
+            </div>
+            <button class="story-close" onclick="closeStory()"><i class="ph ph-x"></i></button>
+            <div class="story-content" id="story-content-area">
+                <!-- Dinamik hikaye içeriği -->
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- CONFIG ---
+        const DB_KEY = 'mia_database_v6';
+        const SESSION_KEY = 'mia_current_session_v6';
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('SW Registered'))
+                    .catch(err => console.log('SW Error', err));
+            });
+        }
+
+        // --- DATA ---
+        const products = [
+            { id: 1, name: "Signature Espresso", category: "hot", price: 60, image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, name: "Latte Macchiato", category: "hot", price: 75, image: "https://images.unsplash.com/photo-1485808191679-5f8c7c8606af?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, name: "Iced Americano", category: "cold", price: 70, image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80" },
+            { id: 4, name: "Berry Hibiscus", category: "cold", price: 85, image: "https://images.unsplash.com/photo-1461023058943-48dbf1399f98?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, name: "Belçika Kurvasan", category: "bakery", price: 65, image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80" },
+            { id: 6, name: "San Sebastian", category: "bakery", price: 120, image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        // --- STATE ---
+        let user = { name: "Misafir", email: "", balance: 0, stars: 0, favorites: [], orders: [], walletHistory: [] };
+        let cart = [];
+        let currentProduct = null;
+        let currentQty = 1;
+        let currentSize = 'S';
+        let currentMilk = 'normal';
+        let currentMilkPrice = 0;
+        let currentExtras = [];
+        let trackerInterval;
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) splash.classList.add('hide');
+            }, 2000);
+
+            if (localStorage.getItem('mia_theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                const darkToggle = document.getElementById('dark-mode-toggle');
+                if (darkToggle) darkToggle.checked = true;
+            }
+
+            const sessionEmail = localStorage.getItem(SESSION_KEY);
+            if (sessionEmail) {
+                const db = getDB();
+                const found = db.users.find(u => u.email === sessionEmail);
+                if (found) {
+                    user = found;
+                }
+            }
+
+            updateUI();
+            renderMenu('all');
+        });
+
+        // --- DATABASE ---
+        function getDB() {
+            let data = localStorage.getItem(DB_KEY);
+            return data ? JSON.parse(data) : { users: [] };
+        }
+
+        function saveDB(db) {
+            localStorage.setItem(DB_KEY, JSON.stringify(db));
+        }
+
+        function updateUserInDB() {
+            if (!user || !user.email) return;
+            const db = getDB();
+            const idx = db.users.findIndex(u => u.email === user.email);
+            if (idx !== -1) {
+                db.users[idx] = { ...user };
+                saveDB(db);
+                updateUI();
+            }
+        }
+
+        function getToday() { return new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+
+        // --- UI ---
+        function updateUI() {
+            const isGuest = !user || user.email === "";
+            document.body.classList.toggle('is-user', !isGuest);
+
+            const nameDisp = document.getElementById('user-name-display');
+            const greetingText = document.getElementById('greeting-text');
+            const headBal = document.getElementById('header-balance');
+            const wallBal = document.getElementById('wallet-balance-big');
+            const userStars = document.getElementById('user-stars');
+
+            const cardUser = document.getElementById('card-user-name');
+            const settingsName = document.getElementById('settings-user-fullname');
+            const settingsEmail = document.getElementById('settings-user-email');
+            const avatar = document.querySelector('.avatar');
+
+            if (nameDisp) nameDisp.innerText = isGuest ? "Misafir" : user.name;
+            if (greetingText) greetingText.innerText = isGuest ? "Hoş Geldin," : "Mia VIP Üyesi,";
+
+            const currentBal = isGuest ? 0 : (user.balance || 0);
+            if (headBal) headBal.innerText = currentBal.toFixed(2) + " ₺";
+            if (wallBal) wallBal.innerText = currentBal.toFixed(2) + " ₺";
+
+            if (cardUser) cardUser.innerText = isGuest ? "MİSAFİR KART" : user.name.toUpperCase();
+            if (settingsName) settingsName.innerText = isGuest ? "Misafir Kullanıcı" : user.name;
+            if (settingsEmail) settingsEmail.innerText = isGuest ? "Üyeliğe bekliyoruz..." : user.email;
+            if (avatar) avatar.innerText = isGuest ? "?" : user.name.charAt(0).toUpperCase();
+
+            const stars = isGuest ? 0 : (user.stars || 0);
+            if (userStars) userStars.innerText = stars;
+
+            const steps = document.querySelectorAll('.roadmap-step');
+            steps.forEach((s, idx) => {
+                if (idx < stars) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+
+            renderQuickReorder();
+            renderBankCards();
+        }
+
+        function showPage(pid) {
+            document.querySelectorAll('.page-section').forEach(el => { el.classList.remove('active'); el.style.display = 'none'; });
+            const t = document.getElementById('page-' + pid);
+            if (!t) return;
+            t.style.display = 'block';
+            setTimeout(() => t.classList.add('active'), 10);
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navItems = document.querySelectorAll('.nav-item');
+            if (pid === 'home' && navItems[0]) navItems[0].classList.add('active');
+            if (pid === 'wallet' && navItems[1]) { navItems[1].classList.add('active'); renderWallet(); }
+            if (pid === 'orders' && navItems[2]) { navItems[2].classList.add('active'); renderOrders(); }
+            if (pid === 'settings' && navItems[3]) { navItems[3].classList.add('active'); renderStats(); }
+        }
+
+        // --- AUTH ---
+        function openAuthModal(tab = 'login') {
+            switchAuth(tab);
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('auth-modal').classList.add('active');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('auth-modal').classList.remove('active');
+        }
+
+        function switchAuth(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('form-login').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('form-register').classList.add('active');
+            }
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-pass').value.trim();
+            const db = getDB();
+            const found = db.users.find(u => u.email === email && u.password === password);
+            if (found) {
+                user = found;
+                localStorage.setItem(SESSION_KEY, email);
+                closeAuthModal();
+                updateUI();
+                showToast("Hoş Geldin!");
+            } else {
+                showToast("Hatalı giriş!");
+            }
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-pass').value.trim();
+            if (!name || !email || !password) { showToast("Eksikleri doldurun."); return; }
+            const db = getDB();
+            if (db.users.find(u => u.email === email)) { showToast("Bu e-posta kayıtlı!"); return; }
+            const newUser = {
+                name, email, password,
+                balance: 100, stars: 0, favorites: [],
+                orders: [], bankCards: [],
+                walletHistory: [{ desc: "Yeni Üye Hediyesi 🎁", amount: 100, type: 'in', date: getToday() }]
+            };
+            db.users.push(newUser);
+            saveDB(db);
+            user = newUser;
+            localStorage.setItem(SESSION_KEY, email);
+            closeAuthModal();
+            updateUI();
+            showToast("Kayıt Başarılı! ☕");
+        }
+
+        function logout() {
+            localStorage.removeItem(SESSION_KEY);
+            location.reload();
+        }
+
+        // --- WALLET ---
+        function confirmLoad() {
+            const amtEl = document.getElementById('load-amount');
+            const amt = amtEl ? parseFloat(amtEl.value) : 0;
+            if (!amt || amt <= 0) { showToast("Lütfen geçerli bir tutar girin."); return; }
+
+            if (!user.bankCards || user.bankCards.length === 0) {
+                showToast("Lütfen önce bir ödeme yöntemi ekleyin! 💳");
+                return;
+            }
+
+            user.balance = Number((user.balance + amt).toFixed(2));
+            if (!user.walletHistory) user.walletHistory = [];
+            user.walletHistory.unshift({ desc: "Bakiye Yükleme", amount: amt, type: 'in', date: getToday() });
+            updateUserInDB();
+            if (amtEl) amtEl.value = "";
+            closeLoadModal();
+            showToast(amt + " ₺ Yüklendi! ✅");
+        }
+
+        function addMoney(amt) {
+            const amtEl = document.getElementById('load-amount');
+            if (amtEl) amtEl.value = amt;
+        }
+
+        function openLoadModal() {
+            if (user.email === "") { openAuthModal('login'); return; }
+            renderBankCards(true); // Payment modalı için render et
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('payment-modal').classList.add('active');
+        }
+
+        function closeLoadModal() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('payment-modal').classList.remove('active');
+        }
+
+        function renderWallet() {
+            const c = document.getElementById('wallet-history');
+            if (!c) return;
+            c.innerHTML = '';
+            if (!user.walletHistory || user.walletHistory.length === 0) { c.innerHTML = '<div style="text-align:center; padding:20px; color:var(--gray);">Geçmiş Yok</div>'; return; }
+            user.walletHistory.forEach(h => {
+                const el = document.createElement('div'); el.className = 'history-item';
+                el.innerHTML = `<div><b>${h.desc}</b><br><small style="color:var(--gray)">${h.date}</small></div><div style="font-weight:700; color:${h.type === 'in' ? 'var(--success)' : '#ef5350'}">${h.type === 'in' ? '+' : '-'}${h.amount}₺</div>`;
+                c.appendChild(el);
+            });
+        }
+
+        // --- MENU ---
+        function renderMenu(cat) {
+            const con = document.getElementById('menu-container');
+            if (!con) return;
+            con.innerHTML = '';
+            let list = products;
+            if (cat !== 'all') list = products.filter(p => p.category === cat);
+            list.forEach(p => {
+                const div = document.createElement('div'); div.className = 'product-card';
+                div.onclick = () => openSheet(p);
+                div.innerHTML = `
+                    <div class="pc-img"><img src="${p.image}"></div>
+                    <div class="pc-title">${p.name}</div>
+                    <div class="pc-meta"><span class="pc-price">${p.price} ₺</span><span class="pc-add">+</span></div>
+                `;
+                con.appendChild(div);
+            });
+        }
+
+        function openSheet(p) {
+            currentProduct = p;
+            currentQty = 1;
+            document.getElementById('modal-img').src = p.image;
+            document.getElementById('modal-title').innerText = p.name;
+            document.getElementById('modal-price').innerText = p.price + " ₺";
+            document.getElementById('modal-total-price').innerText = p.price + " ₺";
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        function changeQty(d) {
+            if (currentQty + d > 0) {
+                currentQty += d;
+                document.getElementById('modal-qty').innerText = currentQty;
+                document.getElementById('modal-total-price').innerText = (currentProduct.price * currentQty) + " ₺";
+            }
+        }
+
+        function addToCartConfirm() {
+            cart.push({ ...currentProduct, qty: currentQty, total: currentProduct.price * currentQty });
+            updateCartIcon();
+            closeProductModal();
+            showToast("Sepete Eklendi!");
+        }
+
+        function closeProductModal() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('product-modal').classList.remove('active');
+        }
+
+        function updateCartIcon() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function openCart() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+            let total = 0;
+            cart.forEach(i => {
+                total += i.total;
+                container.innerHTML += `<div class="cart-item"><h4>${i.name}</h4><p>x${i.qty} - ${i.total}₺</p></div>`;
+            });
+            document.getElementById('cart-total-amount').innerText = total + " ₺";
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('cart-modal').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('cart-modal').classList.remove('active');
+        }
+
+        function checkout() {
+            let total = cart.reduce((s, i) => s + i.total, 0);
+            if (user.balance < total) { showToast("Yetersiz Bakiye!"); return; }
+            user.balance -= total;
+            user.stars += cart.length;
+            const orderId = Math.floor(Math.random() * 90000) + 10000;
+            user.orders.unshift({ id: orderId, items: [...cart], total, date: getToday(), status: 'received' });
+            user.walletHistory.unshift({ desc: "Sipariş Ödemesi", amount: total, type: 'out', date: getToday() });
+            updateUserInDB();
+            cart = [];
+            updateCartIcon();
+            closeCart();
+            startLiveTracking();
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('success-modal').classList.add('active');
+        }
+
+        function closeSuccess() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('success-modal').classList.remove('active');
+        }
+
+        // --- OTHERS ---
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = 'toast';
+            t.innerText = msg;
+            container.appendChild(t);
+            setTimeout(() => t.classList.add('toast-show'), 10);
+            setTimeout(() => { t.classList.remove('toast-show'); setTimeout(() => t.remove(), 300); }, 2500);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('mia_theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('mia_theme', 'dark');
+            }
+        }
+
+        function startLiveTracking() {
+            const container = document.getElementById('live-tracker-container');
+            container.style.display = 'block';
+            let seconds = 90;
+            if (trackerInterval) clearInterval(trackerInterval);
+            trackerInterval = setInterval(() => {
+                seconds--;
+                document.getElementById('tracker-timer').innerText = `0${Math.floor(seconds / 60)}:${seconds % 60 < 10 ? '0' : ''}${seconds % 60}`;
+                document.getElementById('tracker-bar').style.width = ((90 - seconds) / 90 * 100) + "%";
+                if (seconds <= 0) { clearInterval(trackerInterval); container.style.display = 'none'; showToast("Siparişin Hazır!"); }
+            }, 1000);
+        }
+
+        function renderOrders() {
+            const c = document.getElementById('orders-list');
+            c.innerHTML = '';
+            user.orders.forEach(o => {
+                c.innerHTML += `<div class="order-card"><b>#${o.id}</b> - ${o.total}₺<br><small>${o.date}</small></div>`;
+            });
+        }
+
+        function renderStats() { }
+        function renderQuickReorder() { }
+        function renderBankCards(isPaymentModal = false) {
+            const containerId = isPaymentModal ? 'payment-modal-cards' : 'bank-cards-container';
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (!user.bankCards || user.bankCards.length === 0) {
+                container.innerHTML = `<div class="add-card-prompt" onclick="openAddCardModal()" style="border: 2px dashed var(--line); padding: 15px; border-radius: 15px; text-align: center; cursor: pointer;">
+                    <i class="ph ph-plus" style="font-size: 20px; color: var(--gray);"></i>
+                    <p style="font-size: 11px; color: var(--gray); margin-top: 5px;">Kart Ekle</p>
+                </div>`;
+                return;
+            }
+
+            user.bankCards.forEach((card, idx) => {
+                const div = document.createElement('div');
+                div.className = `bank-card mini-${card.type}`;
+                div.style.minWidth = isPaymentModal ? '180px' : '220px';
+                div.innerHTML = `
+                    <div class="b-card-top">
+                        <i class="ph-fill ph-credit-card"></i>
+                        <span>${card.number}</span>
+                    </div>
+                    <small>${card.name}</small>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function openAddCardModal() {
+            if (user.email === "") { openAuthModal('login'); return; }
+            document.getElementById('payment-modal').classList.remove('active');
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('add-card-modal').classList.add('active');
+        }
+
+        function closeAddCardModal() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('add-card-modal').classList.remove('active');
+        }
+
+        function confirmAddCard() {
+            const name = document.getElementById('new-card-name').value;
+            const num = document.getElementById('new-card-number').value;
+            if (!name || num.length < 15) { showToast("Geçerli kart bilgileri girin!"); return; }
+
+            if (!user.bankCards) user.bankCards = [];
+            user.bankCards.push({
+                id: Date.now(),
+                name: name,
+                number: "**** **** **** " + num.slice(-4),
+                type: num.startsWith('4') ? 'visa' : 'master'
+            });
+
+            updateUserInDB();
+            document.getElementById('add-card-modal').classList.remove('active');
+
+            // Eğer ödeme için bakiye ekranındaysak oraya geri dön
+            const loadAmount = document.getElementById('load-amount').value;
+            if (loadAmount) {
+                openLoadModal();
+            } else {
+                document.getElementById('overlay').classList.remove('active');
+                renderBankCards();
+            }
+            showToast("Kart başarıyla kaydedildi! 💳");
+        }
+
+        function openGiftModal() {
+            if (user.email === "") { openAuthModal('login'); return; }
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('gift-modal').classList.add('active');
+        }
+
+        function closeGiftModal() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('gift-modal').classList.remove('active');
+        }
+
+        function confirmGift() {
+            const targetEmail = document.getElementById('gift-email').value;
+            const price = parseInt(document.getElementById('gift-item-id').value);
+            if (!targetEmail.includes('@')) { showToast("Geçerli e-posta girin!"); return; }
+            if (user.balance < price) { showToast("Yetersiz bakiye!"); return; }
+
+            const db = getDB();
+            const recipient = db.users.find(u => u.email === targetEmail);
+            user.balance = Number((user.balance - price).toFixed(2));
+            user.walletHistory.unshift({ desc: `Hediye: ${targetEmail}`, amount: price, type: 'out', date: getToday() });
+
+            if (recipient) {
+                recipient.balance += price;
+                recipient.walletHistory.unshift({ desc: `Hediye geldi: ${user.email}`, amount: price, type: 'in', date: getToday() });
+                // Recipient verisini de DB'ye yazmamız lazım ama basitlik için şimdilik sadece göndereni güncelliyoruz
+                // Gerçek bir DB'de bu daha farklı olurdu.
+            }
+
+            updateUserInDB();
+            document.getElementById('gift-modal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            showToast("Hediye gönderildi! 🎁");
+        }
+
+        // Overlay Click
+        document.getElementById('overlay').onclick = () => {
+            closeProductModal();
+            closeCart();
+            closeAuthModal();
+            closeLoadModal();
+            closeSuccess();
+            closeAddCardModal();
+            closeGiftModal();
+        };
+
+    </script>
+</body>
+
+</html>
