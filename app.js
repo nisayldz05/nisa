@@ -5,12 +5,12 @@ const SESSION_KEY = 'mia_current_session_v6';
 
 // --- DATA ---
 const products = [
-    { id: 1, name: "Signature Espresso", category: "hot", price: 60, image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" },
-    { id: 2, name: "Latte Macchiato", category: "hot", price: 75, image: "https://images.unsplash.com/photo-1485808191679-5f8c7c8606af?auto=format&fit=crop&w=400&q=80" },
-    { id: 3, name: "Iced Americano", category: "cold", price: 70, image: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=400&q=80" },
-    { id: 4, name: "Berry Hibiscus", category: "cold", price: 85, image: "https://images.unsplash.com/photo-1461023058943-48dbf1399f98?auto=format&fit=crop&w=400&q=80" },
-    { id: 5, name: "Belçika Kurvasan", category: "bakery", price: 65, image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80" },
-    { id: 6, name: "San Sebastian", category: "bakery", price: 120, image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=400&q=80" }
+    { id: 1, name: "Signature Espresso", category: "hot", price: 60, image: "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { id: 2, name: "Latte Macchiato", category: "hot", price: 75, image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { id: 3, name: "Iced Americano", category: "cold", price: 70, image: "https://images.pexels.com/photos/1233535/pexels-photo-1233535.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { id: 4, name: "Berry Hibiscus", category: "cold", price: 85, image: "https://images.pexels.com/photos/1193335/pexels-photo-1193335.jpeg?auto=compress&cs=tinysrgb&w=600" },
+    { id: 5, name: "Belçika Kurvasan", category: "bakery", price: 65, image: "https://images.pexels.com/photos/3724/food-morning-breakfast-orange-juice.jpg?auto=compress&cs=tinysrgb&w=600" },
+    { id: 6, name: "San Sebastian", category: "bakery", price: 120, image: "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600" }
 ];
 
 // --- STATE ---
@@ -720,57 +720,7 @@ function reorderFast(item) {
     openCart();
 }
 
-// --- STORIES LOGIC ---
-const storiesData = {
-    winter: { title: "Kış Güneşi ❄️", desc: "Yeni Pumpkin Spice Latte ve kışa özel kurabiyelerimiz çıktı! Sıcaklığın tadını çıkar.", img: "https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&w=800&q=80" },
-    stars: { title: "Yıldız Yağmuru! ⭐", desc: "Bu hafta sonu tüm içeceklerde 2 kat yıldız fırsatı seni bekliyor. Hemen sipariş ver!", img: "https://images.unsplash.com/photo-1510511459019-5dee995d3cb1?auto=format&fit=crop&w=800&q=80" },
-    bakery: { title: "Fırından Taze 🥐", desc: "Belçika çikolatalı kruvasanlarımız her sabah 08:00'de sıcak servis edilir.", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80" },
-    gift: { title: "Mutluluk Paylaşılır! 🎁", desc: "Cüzdan sekmesine git, arkadaşına tek tıkla kahve ısmarla. Paylaşmak güzeldir.", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=800&q=80" }
-};
 
-let storyTimer;
-function showStory(id) {
-    const s = storiesData[id];
-    const area = document.getElementById('story-content-area');
-    const viewer = document.getElementById('story-viewer');
-    const bar = viewer.querySelector('.story-progress-bar');
-
-    if (!s || !viewer) return;
-
-    area.innerHTML = `
-        <img src="${s.img}">
-        <div class="story-text-overlay">
-            <h2>${s.title}</h2>
-            <p>${s.desc}</p>
-        </div>
-    `;
-
-    viewer.classList.add('active');
-
-    bar.style.width = '0%';
-    setTimeout(() => {
-        bar.style.transition = 'width 5s linear';
-        bar.style.width = '100%';
-    }, 50);
-
-    storyTimer = setTimeout(() => closeStory(), 5000);
-}
-
-function closeStory() {
-    const viewer = document.getElementById('story-viewer');
-    if (viewer) {
-        viewer.classList.remove('active');
-        const bar = viewer.querySelector('.story-progress-bar');
-        bar.style.transition = 'none';
-        bar.style.width = '0%';
-    }
-    clearTimeout(storyTimer);
-}
-
-// Close story on background click
-document.getElementById('story-viewer').addEventListener('click', (e) => {
-    closeStory();
-});
 
 // --- GIFT COFFEE LOGIC ---
 function openGiftModal() {
