@@ -22,7 +22,10 @@
     <!-- --- SPLASH SCREEN --- -->
     <div id="splash-screen">
         <div class="splash-content">
-            <div class="splash-logo">M</div>
+            <div class="splash-logo"
+                style="overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <img src="icon-192.png" style="width:100%; height:100%; object-fit: cover;">
+            </div>
             <h1>Mia.</h1>
             <p>Coffee & Bakery</p>
             <div class="loading-dots">
@@ -509,10 +512,10 @@
         const products = [
             { id: 1, name: "Signature Espresso", category: "hot", price: 60, image: "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" },
             { id: 2, name: "Latte Macchiato", category: "hot", price: 75, image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 3, name: "Iced Americano", category: "cold", price: 70, image: "https://images.pexels.com/photos/1233535/pexels-photo-1233535.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 3, name: "Iced Americano", category: "cold", price: 70, image: "https://images.pexels.com/photos/5741238/pexels-photo-5741238.jpeg" },
             { id: 4, name: "Berry Hibiscus", category: "cold", price: 85, image: "https://images.pexels.com/photos/1193335/pexels-photo-1193335.jpeg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 5, name: "Belçika Kurvasan", category: "bakery", price: 65, image: "https://images.pexels.com/photos/3724/food-morning-breakfast-orange-juice.jpg?auto=compress&cs=tinysrgb&w=600" },
-            { id: 6, name: "San Sebastian", category: "bakery", price: 120, image: "https://images.pexels.com/photos/1126359/pexels-photo-1126359.jpeg?auto=compress&cs=tinysrgb&w=600" }
+            { id: 5, name: "Belçika Kurvasan", category: "bakery", price: 65, image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600" },
+            { id: 6, name: "San Sebastian", category: "bakery", price: 120, image: "https://images.pexels.com/photos/6607325/pexels-photo-6607325.jpeg" }
         ];
 
         // --- STATE ---
@@ -752,17 +755,44 @@
             if (!con) return;
             con.innerHTML = '';
             let list = products;
-            if (cat !== 'all') list = products.filter(p => p.category === cat);
+            if (cat === 'fav') {
+                list = products.filter(p => user.favorites && user.favorites.includes(p.id));
+            } else if (cat !== 'all') {
+                list = products.filter(p => p.category === cat);
+            }
+
             list.forEach(p => {
+                const isFav = user.favorites && user.favorites.includes(p.id);
                 const div = document.createElement('div'); div.className = 'product-card';
-                div.onclick = () => openSheet(p);
+                div.onclick = (e) => {
+                    if (!e.target.closest('.pc-heart')) openSheet(p);
+                };
                 div.innerHTML = `
+                    <div class="pc-heart ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite(${p.id})">
+                        <i class="${isFav ? 'ph-fill' : 'ph'} ph-heart"></i>
+                    </div>
                     <div class="pc-img"><img src="${p.image}"></div>
                     <div class="pc-title">${p.name}</div>
                     <div class="pc-meta"><span class="pc-price">${p.price} ₺</span><span class="pc-add">+</span></div>
                 `;
                 con.appendChild(div);
             });
+        }
+
+        function toggleFavorite(id) {
+            if (!user) return;
+            if (!user.favorites) user.favorites = [];
+            const idx = user.favorites.indexOf(id);
+            if (idx === -1) {
+                user.favorites.push(id);
+                showToast("Favorilere eklendi ❤️");
+            } else {
+                user.favorites.splice(idx, 1);
+                showToast("Favorilerden çıkarıldı");
+            }
+            updateUserInDB();
+            const activeChip = document.querySelector('.filter-chip.active');
+            if (activeChip) renderMenu(activeChip.dataset.category);
         }
 
         function openSheet(p) {
@@ -987,6 +1017,16 @@
             document.getElementById('overlay').classList.remove('active');
             showToast("Hediye gönderildi! 🎁");
         }
+
+        // Overlay Click
+        // Filter chips listeners
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
+                btn.classList.add('active');
+                renderMenu(btn.dataset.category);
+            };
+        });
 
         // Overlay Click
         document.getElementById('overlay').onclick = () => {
