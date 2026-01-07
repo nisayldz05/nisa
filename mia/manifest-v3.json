@@ -2,7 +2,7 @@
     "name": "Mia Coffee & Bakery",
     "short_name": "Mia",
     "description": "Mia Coffee Elite Reward System",
-    "version": "3.0.0",
+    "version": "4.0.0",
     "start_url": "/mia/index.html",
     "display": "standalone",
     "background_color": "#0d0d0d",
@@ -10,6 +10,12 @@
     "orientation": "portrait",
     "scope": "/mia/",
     "icons": [
+        {
+            "src": "https://cdn-icons-png.flaticon.com/512/9165/9165706.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
         {
             "src": "ultra-fix-512.jpg",
             "sizes": "512x512",
