@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "name": "nisa",
+    "cleanUrls": true,
+    "rewrites": [
+        {
+            "source": "/mia/(.*)",
+            "destination": "/mia/$1"
+        }
+    ]
+}
