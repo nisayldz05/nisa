@@ -2,6 +2,7 @@
     "name": "Mia Coffee & Bakery",
     "short_name": "Mia",
     "description": "Mia Coffee Elite Reward System",
+    "version": "2.0.0",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#0d0d0d",
