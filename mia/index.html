@@ -23,9 +23,9 @@
     <div id="splash-screen">
         <div class="splash-content">
             <div class="splash-logo"
-                style="width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; border-radius: 20%;">
+                style="width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1);">
                 <img src="final-icon-192.png"
-                    style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2);">
+                    style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);">
             </div>
             <h1>Mia.</h1>
             <p>Coffee & Bakery</p>
@@ -130,10 +130,6 @@
                             <div class="benefit-item">
                                 <i class="ph-fill ph-check-circle"></i>
                                 <span>Her 5 harcamada 1 hediye kahve</span>
-                            </div>
-                            <div class="benefit-item">
-                                <i class="ph-fill ph-sparkle"></i>
-                                <span>Doğum gününde özel ikramlar</span>
                             </div>
                         </div>
                     </div>
@@ -252,47 +248,64 @@
                         </div>
                     </div>
                 </div>
-        </div>
 
-        <!-- 5. BARISTA PANELI -->
-        <div id="page-admin" class="page-section">
-            <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <h1>Mutfak Paneli</h1>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-refresh" onclick="renderAdminDashboard()"><i
-                            class="ph ph-arrows-clockwise"></i></button>
+                <!-- YASAL (HERKES İÇİN) -->
+                <div style="margin-top: 30px; padding-bottom: 40px;">
+                    <h3 style="margin-bottom: 12px; font-size: 14px; opacity: 0.6; padding-left: 5px;">Yasal Bilgiler
+                    </h3>
+                    <div class="bento-grid">
+                        <div class="bento-item" onclick="window.location.href='privacy.html'">
+                            <i class="ph ph-shield-check"></i>
+                            <h4>Gizlilik Politikası</h4>
+                        </div>
+                        <div class="bento-item" onclick="window.location.href='terms.html'">
+                            <i class="ph ph-file-text"></i>
+                            <h4>Ödeme Sözleşmesi</h4>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <p style="padding: 0 20px 10px; font-size: 13px; color: var(--gray);">Siparişlerin durumunu buradan
-                yönetebilirsiniz.</p>
-            <div id="admin-orders-list" class="admin-orders-list"></div>
         </div>
-        </main>
+    </div>
 
-        <!-- Alt Menü -->
-        <nav class="tab-bar">
-            <div class="nav-item active" onclick="showPage('home')">
-                <i class="ph-fill ph-house"></i>
-                <span>Anasayfa</span>
+    <!-- 5. BARISTA PANELI -->
+    <div id="page-admin" class="page-section">
+        <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Mutfak Paneli</h1>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-refresh" onclick="renderAdminDashboard()"><i
+                        class="ph ph-arrows-clockwise"></i></button>
             </div>
-            <div class="nav-item" onclick="showPage('wallet')">
-                <i class="ph ph-wallet"></i>
-                <span>Cüzdan</span>
-            </div>
-            <div class="nav-item" onclick="showPage('orders')">
-                <i class="ph ph-receipt"></i>
-                <span>Siparişler</span>
-            </div>
-            <div class="nav-item" onclick="showPage('settings')">
-                <i class="ph ph-gear"></i>
-                <span>Ayarlar</span>
-            </div>
-            <div class="nav-item" onclick="openCart()">
-                <i class="ph ph-shopping-cart"></i>
-                <span>Sepet</span>
-                <div id="cart-count">0</div>
-            </div>
-        </nav>
+        </div>
+        <p style="padding: 0 20px 10px; font-size: 13px; color: var(--gray);">Siparişlerin durumunu buradan
+            yönetebilirsiniz.</p>
+        <div id="admin-orders-list" class="admin-orders-list"></div>
+    </div>
+    </main>
+
+    <!-- Alt Menü -->
+    <nav class="tab-bar">
+        <div class="nav-item active" onclick="showPage('home')">
+            <i class="ph-fill ph-house"></i>
+            <span>Anasayfa</span>
+        </div>
+        <div class="nav-item" onclick="showPage('wallet')">
+            <i class="ph ph-wallet"></i>
+            <span>Cüzdan</span>
+        </div>
+        <div class="nav-item" onclick="showPage('orders')">
+            <i class="ph ph-receipt"></i>
+            <span>Siparişler</span>
+        </div>
+        <div class="nav-item" onclick="showPage('settings')">
+            <i class="ph ph-gear"></i>
+            <span>Ayarlar</span>
+        </div>
+        <div class="nav-item" onclick="openCart()">
+            <i class="ph ph-shopping-cart"></i>
+            <span>Sepet</span>
+            <div id="cart-count">0</div>
+        </div>
+    </nav>
     </div>
     </div>
 
