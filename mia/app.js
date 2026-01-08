@@ -686,6 +686,53 @@ function renderBankCards() {
 
 
 
+// --- STORY LOGIC ---
+const stories = {
+    brand: { img: 'https://images.pexels.com/photos/17692097/pexels-photo-17692097/free-photo-of-cute-pomeranian-dog-in-studio.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Mia ile Tanışın', text: 'En sadık dostumuz ve kahve arkadaşımız Mia!' },
+    coffee: { img: 'https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Taze Çekirdekler', text: 'Her sabah taze kavrulmuş en iyi çekirdekler.' },
+    bakery: { img: 'https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Günlük Taze', text: 'Fırından yeni çıkmış sıcacık lezzetler.' },
+    venue: { img: 'https://images.pexels.com/photos/2564263/pexels-photo-2564263.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Huzurlu Ortam', text: 'Çalışmak veya sohbet etmek için mükemmel.' },
+    events: { img: 'https://images.pexels.com/photos/7063749/pexels-photo-7063749.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Etkinlikler', text: 'Yakında workshop ve tadım günlerimiz başlıyor!' }
+};
+
+let storyTimer;
+function openStoryViewer(key) {
+    const s = stories[key];
+    if (!s) return;
+
+    const modal = document.getElementById('story-viewer');
+    modal.classList.add('active');
+
+    document.getElementById('story-img').src = s.img;
+    document.getElementById('story-title').innerText = s.title;
+    document.getElementById('story-desc').innerText = s.text;
+
+    const bar = document.getElementById('story-bar');
+    bar.style.width = '0%';
+
+    // Reset animation
+    setTimeout(() => {
+        bar.style.transition = 'width 5s linear';
+        bar.style.width = '100%';
+    }, 100);
+
+    if (storyTimer) clearTimeout(storyTimer);
+    storyTimer = setTimeout(() => {
+        closeStoryViewer();
+    }, 5000);
+}
+
+function closeStoryViewer() {
+    const modal = document.getElementById('story-viewer');
+    modal.classList.remove('active');
+    const bar = document.getElementById('story-bar');
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    if (storyTimer) clearTimeout(storyTimer);
+}
+
+
+
 // --- REORDER LOGIC ---
 function renderQuickReorder() {
     const container = document.getElementById('quick-reorder-container');

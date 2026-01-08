@@ -24,7 +24,8 @@
         <div class="splash-content">
             <div class="splash-logo"
                 style="width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; border-radius: 20%;">
-                <img src="icon-192.png" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2);">
+                <img src="final-icon-192.png"
+                    style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.2);">
             </div>
             <h1>Mia.</h1>
             <p>Coffee & Bakery</p>
@@ -62,6 +63,43 @@
                             <button class="btn-login-small guest-only" onclick="openAuthModal()">Giriş Yap</button>
                         </div>
                     </header>
+
+                    <!-- --- MIA STORIES --- -->
+                    <div class="stories-section">
+                        <div class="story-item" onclick="openStoryViewer('brand', 'brand')">
+                            <div class="story-circle active">
+                                <span class="story-icon"><i class="ph-fill ph-paw-print"></i></span>
+                            </div>
+                            <span>Mia</span>
+                        </div>
+                        <div class="story-item" onclick="openStoryViewer('coffee', 'coffee')">
+                            <div class="story-circle active">
+                                <img src="https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=150"
+                                    alt="Coffee">
+                            </div>
+                            <span>Kahveler</span>
+                        </div>
+                        <div class="story-item" onclick="openStoryViewer('bakery', 'bakery')">
+                            <div class="story-circle active">
+                                <img src="https://images.pexels.com/photos/1854652/pexels-photo-1854652.jpeg?auto=compress&cs=tinysrgb&w=150"
+                                    alt="Bakery">
+                            </div>
+                            <span>Tatlılar</span>
+                        </div>
+                        <div class="story-item" onclick="openStoryViewer('venue', 'venue')">
+                            <div class="story-circle active">
+                                <img src="https://images.pexels.com/photos/2564263/pexels-photo-2564263.jpeg?auto=compress&cs=tinysrgb&w=150"
+                                    alt="Mekan">
+                            </div>
+                            <span>Mekan</span>
+                        </div>
+                        <div class="story-item" onclick="openStoryViewer('events', 'events')">
+                            <div class="story-circle">
+                                <span class="story-icon"><i class="ph-fill ph-calendar-star"></i></span>
+                            </div>
+                            <span>Etkinlik</span>
+                        </div>
+                    </div>
 
                     <!-- Canlı Sipariş Takipçisi (Live Tracker) -->
                     <div id="live-tracker-container" class="live-tracker-section user-only"
@@ -294,6 +332,24 @@
     </div>
 
     <!-- --- OVERLAY & MODALS --- -->
+    <div id="story-viewer" class="story-viewer-modal">
+        <div class="story-window">
+            <div class="story-progress">
+                <div class="story-progress-bar" id="story-bar"></div>
+            </div>
+            <button class="story-close" onclick="closeStoryViewer()"><i class="ph ph-x"></i></button>
+            <div class="story-content">
+                <img id="story-img" src="" alt="Story">
+                <div class="story-text-overlay">
+                    <h2 id="story-title">Başlık</h2>
+                    <p style="font-size: 16px; opacity: 0.9;" id="story-desc">Açıklama</p>
+                    <button class="btn btn-primary" style="margin-top:20px; width:auto; padding: 10px 30px;"
+                        onclick="closeStoryViewer()">Harika!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="overlay"></div>
 
     <!-- Ürün Detay Modalı -->
@@ -1043,6 +1099,8 @@
 </body>
 
 </html>  
+ 
+   
  
    
  
