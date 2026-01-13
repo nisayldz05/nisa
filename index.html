@@ -22,13 +22,15 @@
     <!-- --- SPLASH SCREEN --- -->
     <div id="splash-screen">
         <div class="splash-content">
-            <div class="splash-logo"
-                style="width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; overflow: hidden; border-radius: 50%; border: 4px solid rgba(255,255,255,0.1);">
-                <img src="final-icon-192.png"
-                    style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.05);">
+            <div class="splash-logo-container">
+                <div class="splash-logo"
+                    style="width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative; filter: drop-shadow(0 0 30px rgba(198, 156, 109, 0.3));">
+                    <img src="mia-logo.png" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div class="logo-pulse"></div>
             </div>
-            <h1>Mia.</h1>
-            <p>Coffee & Bakery</p>
+            <h1 style="letter-spacing: -1px; font-weight: 900; color: #fff;">Mia.</h1>
+            <p style="opacity: 0.6; font-weight: 600; color: #fff;">Coffee & Bakery</p>
             <div class="loading-dots">
                 <span></span><span></span><span></span>
             </div>
@@ -247,20 +249,20 @@
                             <button class="btn btn-primary" onclick="openAuthModal()">Giriş Yap veya Katıl</button>
                         </div>
                     </div>
-                </div>
-
-                <!-- YASAL (HERKES İÇİN) -->
-                <div style="margin-top: 30px; padding-bottom: 40px;">
-                    <h3 style="margin-bottom: 12px; font-size: 14px; opacity: 0.6; padding-left: 5px;">Yasal Bilgiler
-                    </h3>
-                    <div class="bento-grid">
-                        <div class="bento-item" onclick="window.location.href='privacy.html'">
-                            <i class="ph ph-shield-check"></i>
-                            <h4>Gizlilik Politikası</h4>
-                        </div>
-                        <div class="bento-item" onclick="window.location.href='terms.html'">
-                            <i class="ph ph-file-text"></i>
-                            <h4>Ödeme Sözleşmesi</h4>
+                    <!-- YASAL (HERKES İÇİN) -->
+                    <div style="margin-top: 30px; padding-bottom: 40px;">
+                        <h3 style="margin-bottom: 12px; font-size: 14px; opacity: 0.6; padding-left: 5px;">Yasal
+                            Bilgiler
+                        </h3>
+                        <div class="bento-grid">
+                            <div class="bento-item" onclick="window.location.href='privacy.html'">
+                                <i class="ph ph-shield-check"></i>
+                                <h4>Gizlilik Politikası</h4>
+                            </div>
+                            <div class="bento-item" onclick="window.location.href='terms.html'">
+                                <i class="ph ph-file-text"></i>
+                                <h4>Ödeme Sözleşmesi</h4>
+                            </div>
                         </div>
                     </div>
                 </div>

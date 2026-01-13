@@ -1,10 +1,12 @@
-const CACHE_NAME = 'mia-coffee-v12-icon-fix';
+const CACHE_NAME = 'mia-coffee-v14-final-logo-fix';
 const urlsToCache = [
     './',
     './index.html',
     './style.css',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png',
+    './app.js',
+    './mia-logo.png',
+    './privacy.html',
+    './terms.html',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap',
     'https://unpkg.com/@phosphor-icons/web'
 ];
