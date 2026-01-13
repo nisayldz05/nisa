@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mia-coffee-v14-final-logo-fix';
+const CACHE_NAME = 'mia-coffee-v15-final-fix';
 const urlsToCache = [
     './',
     './index.html',
