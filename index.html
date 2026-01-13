@@ -24,8 +24,8 @@
         <div class="splash-content">
             <div class="splash-logo-container">
                 <div class="splash-logo"
-                    style="width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative;">
-                    <img src="mia-pwa-logo.png" style="width: 100%; height: 100%; object-fit: contain;">
+                    style="width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative; border-radius: 50%; overflow: hidden;">
+                    <img src="mia-pwa-logo.png" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
             <h1 style="letter-spacing: -1px; font-weight: 900; color: #fff;">Mia.</h1>
@@ -536,7 +536,7 @@
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw-v22.js')
+                navigator.serviceWorker.register('./sw-v23.js')
                     .then(reg => console.log('SW Registered'))
                     .catch(err => console.log('SW Error', err));
             });
